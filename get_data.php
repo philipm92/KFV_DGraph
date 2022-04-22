@@ -4,8 +4,6 @@ header('Content-Type: application/json');
 use Shuchkin\SimpleXLSX;
 require_once("assets/SimpleXLSX.php");
 
-require_once("assets/usefulfunctions.php");
-
 $filename = "20220223_Flandorfer_Dashboard-Daten_Verkehrstote_Berichtsjahr.xlsx";
 $xlsx = SimpleXLSX::parse($filename);
 
@@ -65,7 +63,7 @@ if ($xlsx) {
     if ($state_key == "Labels") continue;
     foreach ($accidents_totalized as $tot_key => $tot_array) {
       // get sorted years as label into to-be-made json
-      $year = $accidents_totalized[$tot_key]["Jahr"];
+      $year = (int)$accidents_totalized[$tot_key]["Jahr"];
       if (!in_array($year, $state_json["Labels"])) array_push($state_json["Labels"], $year);
       // add totalized death to data
       if (str_contains($tot_key, $state_key) && array_key_exists($tot_key, $accidents_totalized)) {
