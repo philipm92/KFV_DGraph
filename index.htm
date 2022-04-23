@@ -17,21 +17,23 @@
   <body class="p-2">
     <h3>Get&ouml;tete im Stra&szlig;enverkehr in &Ouml;sterreich</h3>
     <h5>nach Bundesland und Berichtsjahr</h5>
-    <div class="d-flex flex-column justify-content-center" id="chart-container">
+    <div class="d-flex flex-column justify-content-center justify-content-md-start" id="chart-container">
       <canvas id="line-chart"></canvas>
     
-      <form id="filter_form" class="d-flex flex-column flex-md-row justify-content-md-center my-2" novalidate>
+      <form class="d-flex flex-column flex-md-row justify-content-center align-items-md-baseline my-2">
           <div class="form-floating my-2 my-md-0 me-md-1">
             <input type="number" id="startdate" class="form-control" step="1">
             <label>Von</label>
+            <div class="text-danger" id="invalid-startdate"></div>
           </div>
           
           <div class="form-floating my-2 my-md-0 ms-md-1">
             <input type="number" id="enddate" class="form-control" step="1">
             <label>Bis</label>
+            <div class="text-danger" id="invalid-enddate"></div>
           </div>
 
-          <div class="d-flex flex-column flex-md-row justify-content-md-center">
+          <div class="d-flex flex-column flex-md-row justify-content-center">
             <button type="submit" class="btn btn-primary rounded my-2 my-md-0 ms-md-2"><i class="fa-solid fa-filter"></i></button>
             <button type="reset" class="btn btn-danger rounded my-2 my-md-0 ms-md-2"><i class="fa-solid fa-rotate"></i></button>
           </div>
@@ -120,13 +122,6 @@
           // add filter functionality
           $("form").submit((e) => {
             e.preventDefault();
-            if (start_date.val() > end_date.val()) {
-              alert("Startdatum darf nicht größer als Enddatum sein!")
-              return;
-            } if (start_date.val() === end_date.val()) {
-              alert("Startdatum darf nicht gleich als Enddatum sein!")
-              return;
-            }
             line_chart.options.scales.x.min = parseInt(start_date.val());
             line_chart.options.scales.x.max = parseInt(end_date.val());
             line_chart.update();
@@ -135,10 +130,38 @@
           // reset
           $("[type=reset]").on("click", () => {
             line_chart.options.scales.x.min = parseInt(xmin);
-            line_chart.options.scales.x.max = parseInt(xmax);          
+            line_chart.options.scales.x.max = parseInt(xmax);
+            $("#invalid-startdate").text('');
+            $("#invalid-enddate").text('');
+            $("[type=submit]").removeAttr("disabled");
             line_chart.update();
           });
 
+          // check for year validation, probably redundant to some extend
+          start_date.focusout(() => {
+            if (start_date.val() > end_date.val()) {
+              $("#invalid-startdate").text("Startdatum darf nicht größer als Enddatum sein!");
+              $("[type=submit]").attr("disabled", true);
+            } else if (start_date.val() === end_date.val()) {
+              $("#invalid-startdate").text("Startdatum darf nicht gleich als Enddatum sein!");
+              $("[type=submit]").attr("disabled", true);
+            } else {
+              $("#invalid-startdate").text('');
+              $("[type=submit]").removeAttr("disabled");
+            }
+          });
+          end_date.focusout(() => {
+            if (end_date.val() < start_date.val()) {
+              $("#invalid-enddate").text("Enddatum darf nicht kleiner als Startdatum sein!");
+              $("[type=submit]").attr("disabled", true);
+            } else if (start_date.val() === end_date.val()) {
+              $("#invalid-enddate").text("Enddatum darf nicht gleich als Startdatum sein!");
+              $("[type=submit]").attr("disabled", true);
+            } else {
+              $("#invalid-enddate").text('');
+              $("[type=submit]").removeAttr("disabled");
+            }
+          });
         },
         error: function(data) {
           console.log(data);
