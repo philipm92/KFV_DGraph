@@ -17,23 +17,23 @@
   <body class="p-2">
     <h3>Get&ouml;tete im Stra&szlig;enverkehr in &Ouml;sterreich</h3>
     <h5>nach Bundesland und Berichtsjahr</h5>
-    <div class="d-flex flex-column justify-content-center w-50">
+    <div class="d-flex flex-column justify-content-center" id="chart-container">
       <canvas id="line-chart"></canvas>
     
-      <form id="filter_form" class="d-flex flex-row justify-content-center my-2">
-          <div class="form-floating me-1">
+      <form id="filter_form" class="d-flex flex-column flex-md-row justify-content-md-center my-2" novalidate>
+          <div class="form-floating my-2 my-md-0 me-md-1">
             <input type="number" id="startdate" class="form-control" step="1">
             <label>Von</label>
           </div>
           
-          <div class="form-floating ms-1">
+          <div class="form-floating my-2 my-md-0 ms-md-1">
             <input type="number" id="enddate" class="form-control" step="1">
             <label>Bis</label>
           </div>
 
-          <div class="d-flex flex-row justify-content-center">
-            <button type="submit" class="btn btn-primary rounded ms-1"><i class="fa-solid fa-filter"></i></button>
-            <button type="reset" class="btn btn-danger rounded ms-1"><i class="fa-solid fa-rotate"></i></button>
+          <div class="d-flex flex-column flex-md-row justify-content-md-center">
+            <button type="submit" class="btn btn-primary rounded my-2 my-md-0 ms-md-2"><i class="fa-solid fa-filter"></i></button>
+            <button type="reset" class="btn btn-danger rounded my-2 my-md-0 ms-md-2"><i class="fa-solid fa-rotate"></i></button>
           </div>
           
       </form>
@@ -49,7 +49,7 @@
     $(document).ready(function(){
       $.ajax({
         url: 'get_data.php',
-        method: "GET",
+        method: "POST",
         success: function(json_data) {
           // var dataset;
           const labels = json_data["Labels"];
@@ -89,7 +89,7 @@
                     title: {
                       display: true,
                       text: "Getötete",
-                      font: {weight: "bold"}
+                      font: { weight: "bold" }
                     },
                     stacked: true,
                     beginAtZero: true
@@ -98,21 +98,19 @@
                     title: {
                       display: true,
                       text: "Berichtsjahr",
-                      font: {weight: "bold"}
+                      font: { weight: "bold" }
                     }
                   }
               },
               plugins: {
                 legend: {
-                  labels: {
-                    usePointStyle: true,
-                  },
+                  labels: { usePointStyle: true },
                   title: {
                     display: true,
                     text: "Bundesländer",
                     position: "left",
                     align: "start",
-                    font: {weight: "bold"}
+                    font: { weight: "bold" }
                   }
                 }
               }
@@ -133,6 +131,7 @@
             line_chart.options.scales.x.max = parseInt(end_date.val());
             line_chart.update();
           });
+
           // reset
           $("[type=reset]").on("click", () => {
             line_chart.options.scales.x.min = parseInt(xmin);

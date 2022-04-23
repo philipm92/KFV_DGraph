@@ -8,8 +8,23 @@ html, body {
     // font-family: "Open Sans", Calibri, 'Trebuchet MS', sans-serif !important;
 }
 
-// h1, h2, h3, h4, h5, h6 {
-//     // font-family: Roboto, Impact, Haettenschweiler, sans-serif  !important;
-//     font-weight: bolder  !important;
+
+#chart-container {
+    // margin: auto;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+// Medium devices (tablets)
+// @media screen and (min-width: 768px) {
+
 // }
 
+// Large devices (desktops)
+@media screen and (min-width: 1200px) {
+    #chart-container {
+        width: 50%;
+        height: 50%;
+    }
+}   

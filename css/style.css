@@ -7,4 +7,16 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+#chart-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+@media screen and (min-width: 1200px) {
+  #chart-container {
+    width: 50%;
+    height: 50%;
+  }
+}
 /*# sourceMappingURL=style.css.map */
