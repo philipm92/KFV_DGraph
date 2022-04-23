@@ -3,14 +3,16 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" >
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Own CSS -->
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
     <!-- Load all Font Awesome styles -->
-    <link href="assets/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="assets/fontawesome/css/all.min.css" rel="stylesheet" />
+    <!-- Animate Style CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
     <title>Get&ouml;tete im Stra&szlig;enverkehr in &Ouml;sterreich</title>
     
   </head>
@@ -141,24 +143,31 @@
           start_date.focusout(() => {
             if (start_date.val() > end_date.val()) {
               $("#invalid-startdate").text("Startdatum darf nicht größer als Enddatum sein!");
+              start_date.addClass("animate__animated animate__headShake");
               $("[type=submit]").attr("disabled", true);
+
             } else if (start_date.val() === end_date.val()) {
               $("#invalid-startdate").text("Startdatum darf nicht gleich als Enddatum sein!");
+              start_date.addClass("animate__animated animate__headShake");
               $("[type=submit]").attr("disabled", true);
             } else {
               $("#invalid-startdate").text('');
+              start_date.removeClass("animate__animated animate__headShake");
               $("[type=submit]").removeAttr("disabled");
             }
           });
           end_date.focusout(() => {
             if (end_date.val() < start_date.val()) {
               $("#invalid-enddate").text("Enddatum darf nicht kleiner als Startdatum sein!");
+              end_date.addClass("animate__animated animate__headShake");
               $("[type=submit]").attr("disabled", true);
             } else if (start_date.val() === end_date.val()) {
               $("#invalid-enddate").text("Enddatum darf nicht gleich als Startdatum sein!");
+              end_date.addClass("animate__animated animate__headShake");
               $("[type=submit]").attr("disabled", true);
             } else {
               $("#invalid-enddate").text('');
+              end_date.removeClass("animate__animated animate__headShake");
               $("[type=submit]").removeAttr("disabled");
             }
           });
