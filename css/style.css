@@ -9,8 +9,9 @@ html, body {
 }
 
 #chart-container {
-  width: 90vw;
-  height: 90vh;
+  margin: auto;
+  width: 80vw;
+  height: 80vh;
 }
 
 [id^="invalid-"] {
@@ -19,8 +20,9 @@ html, body {
 
 @media screen and (min-width: 1200px) {
   #chart-container {
-    width: 60%;
-    height: 60%;
+    margin: 0;
+    width: 70%;
+    height: 70%;
   }
 }
 /*# sourceMappingURL=style.css.map */

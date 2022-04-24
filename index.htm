@@ -35,7 +35,12 @@
             <div class="text-danger" id="invalid-enddate"></div>
           </div>
 
-          <div class="d-flex flex-column flex-md-row justify-content-center">
+          <select class="my-2 my-md-0 ms-md-1 align-items-md-baseline">
+            <option value="alpha_normal">Z-A</option>
+            <option value="alpha_reversed">A-Z</option>
+          </select>
+
+          <div class="d-flex flex-column flex-md-row justify-content-center mb-3">
             <button type="submit" class="btn btn-primary rounded my-2 my-md-0 ms-md-2"><i class="fa-solid fa-filter"></i></button>
             <button type="reset" class="btn btn-danger rounded my-2 my-md-0 ms-md-2"><i class="fa-solid fa-rotate"></i></button>
           </div>
@@ -65,7 +70,7 @@
               data: data["data"],
               borderColor: data["borderColor"],
               backgroundColor: data["backgroundColor"],
-              fill: true              
+              fill: true    
             });
           }
           var chart_data = {
@@ -108,7 +113,8 @@
               },
               plugins: {
                 legend: {
-                  labels: { usePointStyle: true },
+                  reverse: false,
+                  labels: { usePointStyle: true},
                   title: {
                     display: true,
                     text: "Bundesländer",
@@ -126,6 +132,15 @@
             e.preventDefault();
             line_chart.options.scales.x.min = parseInt(start_date.val());
             line_chart.options.scales.x.max = parseInt(end_date.val());
+            if ($("select").val() === "alpha_reversed") {
+              const datasets_reverse  = [...datasets].reverse();
+              line_chart.data.datasets = datasets_reverse;
+              line_chart.options.plugins.legend.reverse = true;
+            }
+            else { // alpha_normal
+              line_chart.data.datasets = datasets;
+              line_chart.options.plugins.legend.reverse = false;
+            }
             line_chart.update();
           });
 
@@ -133,6 +148,8 @@
           $("[type=reset]").on("click", () => {
             line_chart.options.scales.x.min = parseInt(xmin);
             line_chart.options.scales.x.max = parseInt(xmax);
+            line_chart.data.datasets = datasets;
+            line_chart.options.plugins.legend.reverse = false;
             $("#invalid-startdate").text('');
             $("#invalid-enddate").text('');
             $("[type=submit]").removeAttr("disabled");
